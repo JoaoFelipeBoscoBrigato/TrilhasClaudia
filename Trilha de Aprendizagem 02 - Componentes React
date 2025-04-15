@@ -1,0 +1,190 @@
+Exercício 1: Contador Simples
+Contador.jsx
+
+import React, { useState } from 'react';
+
+const Contador = ({ valorInicial = 0 }) => {
+  const [contador, setContador] = useState(valorInicial);
+
+  const incrementar = () => {
+    setContador(contador + 1);
+  };
+
+  const decrementar = () => {
+    setContador(contador - 1);
+  };
+
+  return (
+    <div style={{ margin: '20px 0', padding: '20px', border: '1px solid #ddd', borderRadius: '5px' }}>
+      <h2>Contador: {contador}</h2>
+      <div style={{ display: 'flex', gap: '10px' }}>
+        <button onClick={incrementar} style={{ padding: '8px 16px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '4px' }}>
+          Incrementar
+        </button>
+        <button onClick={decrementar} style={{ padding: '8px 16px', backgroundColor: '#f44336', color: 'white', border: 'none', borderRadius: '4px' }}>
+          Decrementar
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default Contador;
+
+Exercício 2: Componente de Saudação Personalizada
+Saudacao.jsx
+
+import React, { useState } from 'react';
+
+const Saudacao = ({ nomeInicial = 'Usuário' }) => {
+  const [nome, setNome] = useState(nomeInicial);
+  const [novoNome, setNovoNome] = useState('');
+
+  const handleChange = (e) => {
+    setNovoNome(e.target.value);
+  };
+
+  const atualizarNome = () => {
+    if (novoNome.trim()) {
+      setNome(novoNome);
+      setNovoNome('');
+    }
+  };
+
+  return (
+    <div style={{ margin: '20px 0', padding: '20px', border: '1px solid #ddd', borderRadius: '5px' }}>
+      <h2>Olá, {nome}!</h2>
+      <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+        <input
+          type="text"
+          value={novoNome}
+          onChange={handleChange}
+          placeholder="Digite um novo nome"
+          style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ddd' }}
+        />
+        <button 
+          onClick={atualizarNome}
+          style={{ padding: '8px 16px', backgroundColor: '#2196F3', color: 'white', border: 'none', borderRadius: '4px' }}
+        >
+          Atualizar
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default Saudacao;
+
+Exercício 3: Lista de Tarefas
+ListaTarefas.jsx
+
+import React, { useState } from 'react';
+
+const ListaTarefas = ({ tarefasIniciais = [] }) => {
+  const [tarefas, setTarefas] = useState(tarefasIniciais);
+  const [novaTarefa, setNovaTarefa] = useState('');
+
+  const handleChange = (e) => {
+    setNovaTarefa(e.target.value);
+  };
+
+  const adicionarTarefa = () => {
+    if (novaTarefa.trim()) {
+      setTarefas([...tarefas, novaTarefa]);
+      setNovaTarefa('');
+    }
+  };
+
+  return (
+    <div style={{ margin: '20px 0', padding: '20px', border: '1px solid #ddd', borderRadius: '5px' }}>
+      <h2>Lista de Tarefas</h2>
+      <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
+        <input
+          type="text"
+          value={novaTarefa}
+          onChange={handleChange}
+          placeholder="Digite uma nova tarefa"
+          style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ddd', flexGrow: 1 }}
+        />
+        <button 
+          onClick={adicionarTarefa}
+          style={{ padding: '8px 16px', backgroundColor: '#FF9800', color: 'white', border: 'none', borderRadius: '4px' }}
+        >
+          Adicionar
+        </button>
+      </div>
+      <ul style={{ listStyle: 'none', padding: 0 }}>
+        {tarefas.map((tarefa, index) => (
+          <li key={index} style={{ padding: '8px', borderBottom: '1px solid #eee' }}>
+            {tarefa}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default ListaTarefas;
+
+Exercício 4: Controle de Visibilidade
+ToggleVisibilidade.jsx
+
+import React, { useState } from 'react';
+
+const ToggleVisibilidade = ({ texto = 'Conteúdo padrão' }) => {
+  const [visivel, setVisivel] = useState(false);
+
+  const toggleVisibilidade = () => {
+    setVisivel(!visivel);
+  };
+
+  return (
+    <div style={{ margin: '20px 0', padding: '20px', border: '1px solid #ddd', borderRadius: '5px' }}>
+      <button 
+        onClick={toggleVisibilidade}
+        style={{ padding: '8px 16px', backgroundColor: '#9C27B0', color: 'white', border: 'none', borderRadius: '4px' }}
+      >
+        {visivel ? 'Ocultar' : 'Mostrar'}
+      </button>
+      {visivel && (
+        <div style={{ marginTop: '15px', padding: '15px', backgroundColor: '#f5f5f5', borderRadius: '4px' }}>
+          {texto}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default ToggleVisibilidade;
+
+Como usar os componentes
+
+import React from 'react';
+import Contador from './Contador';
+import Saudacao from './Saudacao';
+import ListaTarefas from './ListaTarefas';
+import ToggleVisibilidade from './ToggleVisibilidade';
+
+const App = () => {
+  const tarefasIniciais = [
+    'Estudar React',
+    'Fazer exercícios',
+    'Praticar componentes'
+  ];
+
+  return (
+    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
+      <h1>Exercícios de React com Estado</h1>
+      
+      <Contador valorInicial={5} />
+      
+      <Saudacao nomeInicial="Maria" />
+      
+      <ListaTarefas tarefasIniciais={tarefasIniciais} />
+      
+      <ToggleVisibilidade texto="Este é um conteúdo que pode ser mostrado ou ocultado com o botão." />
+    </div>
+  );
+};
+
+export default App;
