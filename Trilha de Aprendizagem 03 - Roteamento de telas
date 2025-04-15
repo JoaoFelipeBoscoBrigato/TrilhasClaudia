@@ -1,0 +1,215 @@
+Primeiro, instale as dependências necessárias:
+npm install react-router-dom
+npm install --save-dev @types/react-router-dom
+
+Exercício 1: Sistema de Navegação Básico
+App.tsx
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Home from './pages/Home';
+import About from './pages/About';
+import Contact from './pages/Contact';
+
+function App() {
+  return (
+    <Router>
+      <nav style={{ padding: '1rem', backgroundColor: '#f0f0f0' }}>
+        <ul style={{ display: 'flex', gap: '1rem', listStyle: 'none', padding: 0 }}>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/about">About</Link></li>
+          <li><Link to="/contact">Contact</Link></li>
+          <li><Link to="/animal/dog">Ver Animal (Exemplo)</Link></li>
+        </ul>
+      </nav>
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
+
+pages/Home.tsx
+const Home = () => {
+  return (
+    <div>
+      <h1>Home Page</h1>
+      <p>Welcome to our website!</p>
+    </div>
+  );
+};
+
+export default Home;
+
+pages/About.tsx
+const About = () => {
+  return (
+    <div>
+      <h1>About Us</h1>
+      <p>Learn more about our company.</p>
+    </div>
+  );
+};
+
+export default About;
+
+pages/Contact.tsx
+const Contact = () => {
+  return (
+    <div>
+      <h1>Contact</h1>
+      <p>Get in touch with us.</p>
+    </div>
+  );
+};
+
+export default Contact;
+
+Exercício 2: Passagem de Parâmetros via URL
+pages/Animal.tsx
+import { useParams } from 'react-router-dom';
+
+const Animal = () => {
+  const { name } = useParams<{ name: string }>();
+
+  return (
+    <div>
+      <h1>Animal Page</h1>
+      <p>You are viewing information about: {name}</p>
+    </div>
+  );
+};
+
+export default Animal;
+
+Atualize o App.tsx para incluir a nova rota:
+// Adicione junto com as outras rotas
+<Route path="/animal/:name" element={<Animal />} />
+
+Exercício 3: Redirecionamento com useNavigate
+
+Atualize o pages/Home.tsx:
+import { useNavigate } from 'react-router-dom';
+
+const Home = () => {
+  const navigate = useNavigate();
+
+  const goToAbout = () => {
+    navigate('/about');
+  };
+
+  return (
+    <div>
+      <h1>Home Page</h1>
+      <p>Welcome to our website!</p>
+      <button onClick={goToAbout}>Go to About Page</button>
+    </div>
+  );
+};
+
+export default Home;
+
+Exercício 4: Sistema de Reservas de Hotel
+pages/Rooms.tsx
+import { Link } from 'react-router-dom';
+
+const Rooms = () => {
+  const rooms = [
+    { id: 1, name: 'Standard Room', price: 100 },
+    { id: 2, name: 'Deluxe Room', price: 200 },
+    { id: 3, name: 'Suite', price: 300 },
+  ];
+
+  return (
+    <div>
+      <h1>Available Rooms</h1>
+      <ul>
+        {rooms.map(room => (
+          <li key={room.id}>
+            <Link to={`/room/${room.id}`}>
+              {room.name} - ${room.price} per night
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default Rooms;
+
+pages/RoomDetails.tsx
+import { useParams, useNavigate } from 'react-router-dom';
+
+const RoomDetails = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+
+  // Simulação de dados do quarto
+  const roomData = {
+    1: { name: 'Standard Room', description: 'Comfortable standard room with all basic amenities.', price: 100 },
+    2: { name: 'Deluxe Room', description: 'Spacious room with premium amenities.', price: 200 },
+    3: { name: 'Suite', description: 'Luxurious suite with separate living area.', price: 300 },
+  };
+
+  const room = roomData[id as keyof typeof roomData];
+
+  const handleBooking = () => {
+    // Simular reserva e redirecionar
+    navigate(`/booking-success/${id}`);
+  };
+
+  if (!room) {
+    return <div>Room not found</div>;
+  }
+
+  return (
+    <div>
+      <h1>{room.name}</h1>
+      <p>{room.description}</p>
+      <p>Price: ${room.price} per night</p>
+      <button onClick={handleBooking}>Book Now</button>
+    </div>
+  );
+};
+
+export default RoomDetails;
+
+pages/BookingSuccess.tsx
+import { useParams } from 'react-router-dom';
+
+const BookingSuccess = () => {
+  const { id } = useParams<{ id: string }>();
+
+  return (
+    <div>
+      <h1>Booking Confirmed!</h1>
+      <p>Your booking for room #{id} has been confirmed.</p>
+      <p>Thank you for choosing our hotel!</p>
+    </div>
+  );
+};
+
+export default BookingSuccess;
+
+Atualize o App.tsx com as novas rotas:
+
+// Adicione junto com as outras rotas
+<Route path="/rooms" element={<Rooms />} />
+<Route path="/room/:id" element={<RoomDetails />} />
+<Route path="/booking-success/:id" element={<BookingSuccess />} />
+
+Atualize também o menu de navegação no App.tsx:
+
+<nav style={{ padding: '1rem', backgroundColor: '#f0f0f0' }}>
+  <ul style={{ display: 'flex', gap: '1rem', listStyle: 'none', padding: 0 }}>
+    <li><Link to="/">Home</Link></li>
+    <li><Link to="/about">About</Link></li>
+    <li><Link to="/contact">Contact</Link></li>
+    <li><Link to="/rooms">Rooms</Link></li>
+    <li><Link to="/animal/dog">Ver Animal (Exemplo)</Link></li>
+  </ul>
+</nav>
