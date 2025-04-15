@@ -1,0 +1,430 @@
+1. Botão Estilizado
+
+import React from 'react';
+import './Button.css';
+
+const Button = ({ children, onClick, type = 'primary' }) => {
+  return (
+    <button className={`button ${type}`} onClick={onClick}>
+      {children}
+    </button>
+  );
+};
+
+export default Button;
+
+Button.css
+
+.button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button.primary {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.button.primary:hover {
+  background-color: #45a049;
+}
+
+.button.secondary {
+  background-color: #f44336;
+  color: white;
+}
+
+.button.secondary:hover {
+  background-color: #d32f2f;
+}
+
+2. Cartão de Perfil
+
+ProfileCard.module.css
+.profileCard {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 300px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profileImage {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.profileName {
+  font-size: 1.5rem;
+  margin: 10px 0;
+  color: #333;
+}
+
+.profileDescription {
+  color: #666;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+ProfileCard.jsx
+import React from 'react';
+import styles from './ProfileCard.module.css';
+
+const ProfileCard = ({ name, description, imageUrl }) => {
+  return (
+    <div className={styles.profileCard}>
+      <img 
+        src={imageUrl || 'https://via.placeholder.com/100'} 
+        alt={name} 
+        className={styles.profileImage}
+      />
+      <h2 className={styles.profileName}>{name}</h2>
+      <p className={styles.profileDescription}>{description}</p>
+    </div>
+  );
+};
+
+export default ProfileCard;
+
+3. Cartão Responsivo
+
+Card.css
+.card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.cardContent {
+  color: #666;
+  line-height: 1.5;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .card {
+    padding: 15px;
+    margin: 8px;
+  }
+  
+  .cardTitle {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 10px;
+    margin: 5px;
+  }
+  
+  .cardTitle {
+    font-size: 1.1rem;
+  }
+}
+
+Card.jsx
+import React from 'react';
+import './Card.css';
+
+const Card = ({ title, children }) => {
+  return (
+    <div className="card">
+      <h3 className="cardTitle">{title}</h3>
+      <div className="cardContent">{children}</div>
+    </div>
+  );
+};
+
+export default Card;
+
+4. Galeria com CSS Grid
+
+Gallery.css
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.galleryItem {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.galleryItem:hover {
+  transform: scale(1.03);
+}
+
+.galleryImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    padding: 10px;
+  }
+  
+  .galleryImage {
+    height: 150px;
+  }
+}
+
+Gallery.jsx
+import React from 'react';
+import './Gallery.css';
+
+const Gallery = ({ images }) => {
+  return (
+    <div className="gallery">
+      {images.map((image, index) => (
+        <div key={index} className="galleryItem">
+          <img 
+            src={image.url} 
+            alt={image.alt || `Image ${index + 1}`} 
+            className="galleryImage"
+          />
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default Gallery;
+
+5. Menu de Navegação com Flexbox
+
+Navbar.css
+.navbar {
+  background-color: #333;
+  padding: 15px 0;
+}
+
+.navList {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navItem {
+  margin: 0 15px;
+}
+
+.navLink {
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+.navLink:hover {
+  color: #4CAF50;
+}
+
+@media (max-width: 600px) {
+  .navList {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .navItem {
+    margin: 5px 0;
+  }
+}
+
+Navbar.jsx
+import React from 'react';
+import './Navbar.css';
+
+const Navbar = () => {
+  const links = [
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/about' },
+    { name: 'Services', path: '/services' },
+    { name: 'Contact', path: '/contact' }
+  ];
+
+  return (
+    <nav className="navbar">
+      <ul className="navList">
+        {links.map((link, index) => (
+          <li key={index} className="navItem">
+            <a href={link.path} className="navLink">
+              {link.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};
+
+export default Navbar;
+
+6. Formulário Estilizado
+
+ContactForm.css
+.contactForm {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formLabel {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+.formInput, .formTextarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.formTextarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.submitButton {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.submitButton:hover {
+  background-color: #45a049;
+}
+
+@media (max-width: 600px) {
+  .contactForm {
+    padding: 15px;
+  }
+  
+  .formInput, .formTextarea {
+    padding: 8px;
+  }
+}
+
+ContactForm.jsx
+import React, { useState } from 'react';
+import './ContactForm.css';
+
+const ContactForm = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Form submitted:', formData);
+    // Aqui você pode adicionar a lógica para enviar o formulário
+  };
+
+  return (
+    <form className="contactForm" onSubmit={handleSubmit}>
+      <div className="formGroup">
+        <label htmlFor="name" className="formLabel">Name:</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          className="formInput"
+          required
+        />
+      </div>
+      
+      <div className="formGroup">
+        <label htmlFor="email" className="formLabel">Email:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          className="formInput"
+          required
+        />
+      </div>
+      
+      <div className="formGroup">
+        <label htmlFor="message" className="formLabel">Message:</label>
+        <textarea
+          id="message"
+          name="message"
+          value={formData.message}
+          onChange={handleChange}
+          className="formTextarea"
+          required
+        />
+      </div>
+      
+      <button type="submit" className="submitButton">
+        Send Message
+      </button>
+    </form>
+  );
+};
+
+export default ContactForm;
+
+Coloquei imagem quaisquer pois fiz dps do projeto as trilha
